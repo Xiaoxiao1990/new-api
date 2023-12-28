@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {useParams, useNavigate} from 'react-router-dom';
 import {API, isMobile, showError, showSuccess, timestamp2string} from '../../helpers';
-import {renderQuota, renderQuotaWithPrompt} from '../../helpers/render';
+import {getQuotaPerUnit,renderQuota, renderQuotaWithPrompt} from '../../helpers/render';
 import {Layout, SideSheet, Button, Space, Spin, Banner, Input, DatePicker, AutoComplete, Typography} from "@douyinfe/semi-ui";
 import Title from "@douyinfe/semi-ui/lib/es/typography/title";
 import {Divider} from "semantic-ui-react";
@@ -11,7 +11,7 @@ const EditToken = (props) => {
     const [loading, setLoading] = useState(isEdit);
     const originInputs = {
         name: '',
-        remain_quota: isEdit ? 0 : 500000,
+        remain_quota: isEdit ? 0 : `${getQuotaPerUnit()}`,
         expired_time: -1,
         unlimited_quota: false
     };
@@ -236,12 +236,12 @@ const EditToken = (props) => {
                         type='number'
                         position={'top'}
                         data={[
-                            {value: 500000, label: '1$'},
-                            {value: 5000000, label: '10$'},
-                            {value: 25000000, label: '50$'},
-                            {value: 50000000, label: '100$'},
-                            {value: 250000000, label: '500$'},
-                            {value: 500000000, label: '1000$'},
+                            { value: `${1 * getQuotaPerUnit()}`, label: '1$'},
+                            {value: `${10 * getQuotaPerUnit()}`, label: '10$'},
+                            {value: `${50 * getQuotaPerUnit()}`, label: '50$'},
+                            {value: `${100 * getQuotaPerUnit()}`, label: '100$'},
+                            {value: `${500 * getQuotaPerUnit()}`, label: '500$'},
+                            {value: `${1000 * getQuotaPerUnit()}`, label: '1000$'},
                         ]}
                         disabled={unlimited_quota}
                     />
